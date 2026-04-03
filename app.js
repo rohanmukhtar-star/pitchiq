@@ -58,11 +58,11 @@ function renderFixtures(matches, isLive) {
   }
 
   if (!matches || matches.length === 0) {
-    container.innerHTML = '<div class="loading">No fixtures found for this filter.</div>';
+    container.innerHTML = '<div class="loading">No fixtures found.</div>';
     return;
   }
 
-  container.innerHTML = matches.slice(0,12).map(m => {
+  container.innerHTML = matches.slice(0,20).map(m => {
     const home = m.homeTeam.name;
     const away = m.awayTeam.name;
     const hc = getBadgeColor(home);
@@ -108,8 +108,6 @@ const SAMPLE = [
   {homeTeam:{name:'Liverpool FC'},awayTeam:{name:'Arsenal FC'},utcDate:new Date(Date.now()+86400000*2).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
   {homeTeam:{name:'Manchester City FC'},awayTeam:{name:'Chelsea FC'},utcDate:new Date(Date.now()+86400000*3).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
   {homeTeam:{name:'Tottenham Hotspur FC'},awayTeam:{name:'Arsenal FC'},utcDate:new Date(Date.now()+86400000*4).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
-  {homeTeam:{name:'Manchester United FC'},awayTeam:{name:'Manchester City FC'},utcDate:new Date(Date.now()+86400000*5).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
-  {homeTeam:{name:'Real Madrid CF'},awayTeam:{name:'FC Barcelona'},utcDate:new Date(Date.now()+86400000*7).toISOString(),status:'SCHEDULED',competition:{name:'La Liga'},score:{fullTime:{home:null,away:null}}},
 ];
 
 async function fetchFixtures(filter) {
@@ -121,8 +119,10 @@ async function fetchFixtures(filter) {
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     renderFixtures(data.matches || [], true);
+    return data.matches || [];
   } catch(e) {
-    renderFixtures(filter === 'all' ? SAMPLE : [], false);
+    renderFixtures(SAMPLE, false);
+    return SAMPLE;
   }
 }
 
@@ -130,6 +130,7 @@ document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
     document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
     c.classList.add('active');
+    document.getElementById('search-input').value = '';
     fetchFixtures(c.dataset.filter);
   });
 });
@@ -137,30 +138,7 @@ document.querySelectorAll('.chip').forEach(c => {
 let searchTimeout;
 document.getElementById('search-input').addEventListener('input', function() {
   const q = this.value.toLowerCase().trim();
-
   clearTimeout(searchTimeout);
 
   if (q === '') {
-    document.querySelectorAll('.fixture-card').forEach(card => {
-      card.style.display = '';
-    });
-    return;
-  }
-
-  searchTimeout = setTimeout(() => {
-    document.querySelectorAll('.fixture-card').forEach(card => {
-      card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-
-    const visibleCards = document.querySelectorAll('.fixture-card:not([style*="none"])');
-    if (visibleCards.length === 0) {
-      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-      document.querySelector('[data-filter="all"]').classList.add('active');
-      fetchFixtures('all').then(() => {
-        document.querySelectorAll('.fixture-card').forEach(card => {
-          card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
-        });
-      });
-    }
-  }, 400);
-});
+    const activeFilter = document.querySelector('.chip.active')?.dataset.filter ||

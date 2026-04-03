@@ -65,7 +65,7 @@ function renderFixtures(matches, isLive) {
   }
 
   content.innerHTML = '<div class="section-label">Upcoming fixtures</div>' +
-    matches.slice(0,20).map(m => {
+    matches.slice(0,50).map(m => {
       const home = m.homeTeam.name;
       const away = m.awayTeam.name;
       const hc = getBadgeColor(home);
@@ -79,7 +79,8 @@ function renderFixtures(matches, isLive) {
       const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
       const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
       const derby = isDerby(home, away);
-      const ticketSearch = encodeURIComponent(shortHome + ' vs ' + shortAway + ' tickets');
+      const ticketQuery = shortHome + ' vs ' + shortAway + ' tickets buy';
+      const ticketUrl = 'https://www.google.com/search?q=' + encodeURIComponent(ticketQuery);
 
       return `
         <div class="fixture-card">
@@ -102,7 +103,7 @@ function renderFixtures(matches, isLive) {
             ${isLiveMatch ? '<span class="tag live-tag">Live now</span>' : ''}
             ${isFinished ? '<span class="tag">Full time</span>' : ''}
             ${derby ? '<span class="tag derby">Derby</span>' : ''}
-            <a class="ticket-btn" href="https://www.google.com/search?q=${ticketSearch}" target="_blank">Tickets →</a>
+            <a class="ticket-btn" href="${ticketUrl}" target="_blank">Tickets →</a>
           </div>
         </div>`;
     }).join('');

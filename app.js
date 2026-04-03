@@ -16,10 +16,10 @@ const TEAM_COLORS = {
 };
 
 const LEAGUE_SLUGS = {
-  'Premier League': 'english-premier-league',
-  'Bundesliga': 'german-bundesliga',
-  'Serie A': 'italian-serie-a',
-  'Primera Division': 'spanish-la-liga'
+  'Premier League': 'premier-league',
+  'Bundesliga': 'bundesliga',
+  'Serie A': 'serie-a',
+  'Primera Division': 'la-liga'
 };
 
 let allLoadedMatches = [];
@@ -43,7 +43,7 @@ function toSlug(name) {
 }
 
 function getTicketUrl(shortHome, shortAway, competitionName) {
-  const leagueSlug = LEAGUE_SLUGS[competitionName] || 'english-premier-league';
+  const leagueSlug = LEAGUE_SLUGS[competitionName] || 'premier-league';
   const matchSlug = toSlug(shortHome) + '-vs-' + toSlug(shortAway);
   return 'https://www.footballticketnet.com/' + leagueSlug + '/' + matchSlug;
 }

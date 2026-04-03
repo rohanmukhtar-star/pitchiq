@@ -1,0 +1,36 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
+.app { max-width: 420px; margin: 0 auto; background: white; min-height: 100vh; }
+.header { padding: 1.5rem 1rem 1rem; border-bottom: 1px solid #eee; }
+.logo { font-size: 22px; font-weight: 600; color: #111; letter-spacing: -0.5px; }
+.logo span { color: #1D9E75; }
+.tagline { font-size: 12px; color: #888; margin-top: 2px; }
+.search-bar { margin: 1rem; }
+.search-bar input { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: #f9f9f9; outline: none; }
+.search-bar input:focus { border-color: #1D9E75; }
+.filter-row { display: flex; gap: 8px; padding: 0 1rem 1rem; overflow-x: auto; scrollbar-width: none; }
+.filter-row::-webkit-scrollbar { display: none; }
+.chip { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; font-size: 12px; border: 1px solid #e0e0e0; background: white; color: #666; cursor: pointer; }
+.chip.active { background: #1D9E75; color: white; border-color: #1D9E75; }
+.section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.8px; padding: 0 1rem 0.5rem; }
+.fixture-card { margin: 0 1rem 0.75rem; background: white; border: 1px solid #eee; border-radius: 14px; padding: 1rem; cursor: pointer; transition: border-color 0.15s; }
+.fixture-card:hover { border-color: #1D9E75; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.competition { font-size: 11px; color: #999; }
+.match-time { font-size: 11px; font-weight: 500; color: #666; background: #f5f5f5; padding: 3px 8px; border-radius: 20px; }
+.match-time.live { color: #D85A30; background: #FAECE7; }
+.teams { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.team { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.team-badge { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+.team-name { font-size: 12px; font-weight: 500; color: #111; text-align: center; }
+.score-box { display: flex; flex-direction: column; align-items: center; }
+.score { font-size: 22px; font-weight: 600; color: #111; letter-spacing: 2px; }
+.vs { font-size: 13px; color: #bbb; }
+.card-bottom { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #f0f0f0; align-items: center; }
+.tag { font-size: 11px; color: #888; background: #f5f5f5; padding: 3px 8px; border-radius: 20px; }
+.tag.live-tag { color: #0F6E56; background: #E1F5EE; }
+.tag.derby { color: #854F0B; background: #FAEEDA; }
+.ticket-btn { margin-left: auto; font-size: 11px; color: #0F6E56; background: #E1F5EE; padding: 4px 12px; border-radius: 20px; border: none; cursor: pointer; font-weight: 500; }
+.loading { text-align: center; padding: 2rem; color: #999; font-size: 14px; }
+.status-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #E1F5EE; border-radius: 10px; font-size: 12px; color: #0F6E56; }
+.error-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #fff3cd; border-radius: 10px; font-size: 12px; color: #856404; }

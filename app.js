@@ -1,5 +1,3 @@
-const API_KEY = 'b89f9b0e01c546c0a4c2a36107bbd57c';
-
 const TEAM_COLORS = {
   'Arsenal FC':'#EF0107','Chelsea FC':'#034694','Liverpool FC':'#C8102E',
   'Manchester City FC':'#6CABDD','Manchester United FC':'#DA291C',
@@ -56,7 +54,7 @@ function renderFixtures(matches, isLive) {
   if (isLive) {
     statusArea.innerHTML = '<div class="status-bar">Live data loaded successfully</div>';
   } else {
-    statusArea.innerHTML = '<div class="error-bar">Showing sample data — API key may need a moment to activate</div>';
+    statusArea.innerHTML = '<div class="error-bar">Could not load live data — showing sample fixtures</div>';
   }
 
   if (!matches || matches.length === 0) {
@@ -118,18 +116,9 @@ async function fetchFixtures(filter) {
   document.getElementById('fixtures-container').innerHTML = '<div class="loading">Loading...</div>';
   document.getElementById('status-area').innerHTML = '';
 
-  let url = 'https://api.football-data.org/v4/matches?status=SCHEDULED';
-  if (filter === 'PL') url = 'https://api.football-data.org/v4/competitions/PL/matches?status=SCHEDULED';
-  else if (filter === 'CL') url = 'https://api.football-data.org/v4/competitions/CL/matches?status=SCHEDULED';
-  else if (filter === 'EL') url = 'https://api.football-data.org/v4/competitions/EL/matches?status=SCHEDULED';
-  else if (filter === 'today') {
-    const t = new Date().toISOString().split('T')[0];
-    url = `https://api.football-data.org/v4/matches?dateFrom=${t}&dateTo=${t}`;
-  }
-
   try {
-    const res = await fetch(url, { headers: { 'X-Auth-Token': API_KEY } });
-    if (!res.ok) throw new Error('API ' + res.status);
+    const res = await fetch(`/api/fixtures?filter=${filter || 'all'}`);
+    if (!res.ok) throw new Error('API error');
     const data = await res.json();
     renderFixtures(data.matches || [], true);
   } catch(e) {

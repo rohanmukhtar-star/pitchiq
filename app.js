@@ -140,5 +140,3 @@ document.getElementById('search-input').addEventListener('input', function() {
     card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 });
-
-fetchFixtures('all');

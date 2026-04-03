@@ -15,6 +15,29 @@ const TEAM_COLORS = {
   'Club Atlético de Madrid':'#CB3524'
 };
 
+const TICKET_LINKS = {
+  'Arsenal FC': 'https://www.arsenal.com/tickets',
+  'Chelsea FC': 'https://www.chelseafc.com/en/tickets',
+  'Liverpool FC': 'https://www.liverpoolfc.com/tickets',
+  'Manchester City FC': 'https://www.mancity.com/tickets',
+  'Manchester United FC': 'https://www.manutd.com/en/tickets',
+  'Tottenham Hotspur FC': 'https://www.tottenhamhotspur.com/tickets/',
+  'Newcastle United FC': 'https://www.nufc.co.uk/tickets/',
+  'Aston Villa FC': 'https://www.avfc.co.uk/tickets',
+  'West Ham United FC': 'https://www.whufc.com/tickets',
+  'Brighton & Hove Albion FC': 'https://www.brightonandhovealbion.com/tickets',
+  'Brentford FC': 'https://www.brentfordfc.com/en/tickets',
+  'Fulham FC': 'https://www.fulhamfc.com/tickets',
+  'Wolverhampton Wanderers FC': 'https://www.wolves.co.uk/tickets/',
+  'Everton FC': 'https://www.evertonfc.com/tickets',
+  'Crystal Palace FC': 'https://www.cpfc.co.uk/tickets/',
+  'Nottingham Forest FC': 'https://www.nottinghamforest.co.uk/tickets/',
+  'Bournemouth FC': 'https://www.afcb.co.uk/tickets',
+  'Leicester City FC': 'https://www.lcfc.com/tickets',
+  'Ipswich Town FC': 'https://www.itfc.co.uk/tickets',
+  'Southampton FC': 'https://www.southamptonfc.com/tickets',
+};
+
 let allLoadedMatches = [];
 let currentFilter = 'PL';
 let currentView = 'fixtures';
@@ -25,6 +48,11 @@ function getInitials(name) {
 
 function getBadgeColor(name) {
   return TEAM_COLORS[name] || '#1D9E75';
+}
+
+function getTicketUrl(homeTeam, shortHome, shortAway) {
+  if (TICKET_LINKS[homeTeam]) return TICKET_LINKS[homeTeam];
+  return 'https://www.ticketmaster.co.uk/search?q=' + encodeURIComponent(shortHome + ' ' + shortAway);
 }
 
 function formatDate(dateStr) {
@@ -79,8 +107,7 @@ function renderFixtures(matches, isLive) {
       const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
       const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
       const derby = isDerby(home, away);
-      const ticketQuery = shortHome + ' vs ' + shortAway + ' tickets buy';
-      const ticketUrl = 'https://www.google.com/search?q=' + encodeURIComponent(ticketQuery);
+      const ticketUrl = getTicketUrl(home, shortHome, shortAway);
 
       return `
         <div class="fixture-card">

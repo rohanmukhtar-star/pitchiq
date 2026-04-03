@@ -3,7 +3,7 @@ export default async function handler(req, res) {
 
   const { filter } = req.query;
   const today = new Date().toISOString().split('T')[0];
-  const future = new Date(Date.now() + 86400000 * 14).toISOString().split('T')[0];
+  const future = new Date(Date.now() + 86400000 * 45).toISOString().split('T')[0];
 
   const map = { PL:'PL', BL:'BL1', SA:'SA', PD:'PD' };
   const code = map[filter] || 'PL';

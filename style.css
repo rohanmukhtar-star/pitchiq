@@ -38,21 +38,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .status-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #E1F5EE; border-radius: 10px; font-size: 12px; color: #0F6E56; }
 .error-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #fff3cd; border-radius: 10px; font-size: 12px; color: #856404; }
 .standings-table { margin: 0 1rem; border-radius: 14px; overflow: hidden; border: 1px solid #eee; }
-.standings-header { display: grid; grid-template-columns: 28px 1fr 32px 32px 32px 32px 36px; gap: 4px; padding: 8px 12px; background: #f9f9f9; border-bottom: 1px solid #eee; }
+.standings-header { display: grid; grid-template-columns: 22px 1fr 26px 26px 26px 26px 30px; gap: 2px; padding: 8px 10px; background: #f9f9f9; border-bottom: 1px solid #eee; }
 .standings-header span { font-size: 10px; font-weight: 600; color: #999; text-transform: uppercase; text-align: center; }
 .standings-header span:nth-child(2) { text-align: left; }
-.standings-row { display: grid; grid-template-columns: 28px 1fr 32px 32px 32px 32px 36px; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f5f5f5; align-items: center; transition: background 0.1s; }
+.standings-row { display: grid; grid-template-columns: 22px 1fr 26px 26px 26px 26px 30px; gap: 2px; padding: 9px 10px; border-bottom: 1px solid #f5f5f5; align-items: center; transition: background 0.1s; }
 .standings-row:last-child { border-bottom: none; }
 .standings-row:hover { background: #f9f9f9; }
 .standings-row.champions { border-left: 3px solid #1D9E75; }
 .standings-row.europa { border-left: 3px solid #378ADD; }
 .standings-row.relegation { border-left: 3px solid #E24B4A; }
-.pos { font-size: 12px; font-weight: 600; color: #999; text-align: center; }
-.standings-team { display: flex; align-items: center; gap: 8px; }
-.standings-badge { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; flex-shrink: 0; }
+.pos { font-size: 11px; font-weight: 600; color: #999; text-align: center; }
+.standings-team { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.standings-badge { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 700; flex-shrink: 0; }
 .standings-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.standings-stat { font-size: 12px; color: #666; text-align: center; }
-.standings-pts { font-size: 13px; font-weight: 700; color: #111; text-align: center; }
+.standings-stat { font-size: 11px; color: #666; text-align: center; }
+.standings-pts { font-size: 12px; font-weight: 700; color: #111; text-align: center; }
 .legend { display: flex; gap: 12px; padding: 10px 1rem; flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #888; }
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; }

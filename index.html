@@ -6,9 +6,9 @@
   <title>PitchIQ</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#1D9E75" />
+  <meta name="theme-color" content="#111111" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PitchIQ" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
 </head>
@@ -17,6 +17,20 @@
     <div class="header">
       <div class="logo">Pitch<span>IQ</span></div>
       <div class="tagline">Find matches. Check form. Get tickets.</div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value" id="stat-fixtures">--</div>
+          <div class="stat-label">Fixtures</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="stat-leagues">4</div>
+          <div class="stat-label">Leagues</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="stat-days">45</div>
+          <div class="stat-label">Days ahead</div>
+        </div>
+      </div>
     </div>
     <div class="search-bar">
       <input type="text" placeholder="Search team..." id="search-input" />

@@ -3,15 +3,15 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const { filter } = req.query;
+  const today = new Date().toISOString().split('T')[0];
+  const future = new Date(Date.now() + 86400000 * 30).toISOString().split('T')[0];
 
-  let url = 'https://api.football-data.org/v4/matches?status=SCHEDULED';
-  if (filter === 'PL') url = 'https://api.football-data.org/v4/competitions/PL/matches?status=SCHEDULED';
-  else if (filter === 'CL') url = 'https://api.football-data.org/v4/competitions/CL/matches?status=SCHEDULED';
-  else if (filter === 'EL') url = 'https://api.football-data.org/v4/competitions/EL/matches?status=SCHEDULED';
-  else if (filter === 'today') {
-    const t = new Date().toISOString().split('T')[0];
-    url = `https://api.football-data.org/v4/matches?dateFrom=${t}&dateTo=${t}`;
-  }
+  let url = `https://api.football-data.org/v4/matches?dateFrom=${today}&dateTo=${future}`;
+
+  if (filter === 'PL') url = `https://api.football-data.org/v4/competitions/PL/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'CL') url = `https://api.football-data.org/v4/competitions/CL/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'EL') url = `https://api.football-data.org/v4/competitions/EL/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'today') url = `https://api.football-data.org/v4/matches?dateFrom=${today}&dateTo=${today}`;
 
   try {
     const response = await fetch(url, {

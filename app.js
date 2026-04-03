@@ -143,4 +143,4 @@ document.getElementById('search-input').addEventListener('input', function() {
   renderFixtures(filtered, true);
 });
 
-fetchFixtures('all');
+fetchFixtures('PL');

@@ -16,6 +16,8 @@ const TEAM_COLORS = {
 };
 
 let allLoadedMatches = [];
+let currentFilter = 'PL';
+let currentView = 'fixtures';
 
 function getInitials(name) {
   return name.replace(/ FC| CF| SC| AFC/g,'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
@@ -50,7 +52,7 @@ function isDerby(home, away) {
 }
 
 function renderFixtures(matches, isLive) {
-  const container = document.getElementById('fixtures-container');
+  const content = document.getElementById('main-content');
   const statusArea = document.getElementById('status-area');
 
   statusArea.innerHTML = isLive
@@ -58,54 +60,113 @@ function renderFixtures(matches, isLive) {
     : '<div class="error-bar">Could not load live data</div>';
 
   if (!matches || matches.length === 0) {
-    container.innerHTML = '<div class="loading">No fixtures found.</div>';
+    content.innerHTML = '<div class="loading">No fixtures found.</div>';
     return;
   }
 
-  container.innerHTML = matches.slice(0,10).map(m => {
-    const home = m.homeTeam.name;
-    const away = m.awayTeam.name;
-    const hc = getBadgeColor(home);
-    const ac = getBadgeColor(away);
-    const isLiveMatch = m.status === 'IN_PLAY' || m.status === 'PAUSED';
-    const isFinished = m.status === 'FINISHED';
-    const scoreDisplay = (isLiveMatch || isFinished)
-      ? `<div class="score">${m.score.fullTime.home ?? 0} – ${m.score.fullTime.away ?? 0}</div>`
-      : `<div class="vs">vs</div>`;
-    const timeLabel = isLiveMatch ? 'LIVE' : formatDate(m.utcDate);
-    const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
-    const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
-    const derby = isDerby(home, away);
+  content.innerHTML = '<div class="section-label">Upcoming fixtures</div>' +
+    matches.slice(0,10).map(m => {
+      const home = m.homeTeam.name;
+      const away = m.awayTeam.name;
+      const hc = getBadgeColor(home);
+      const ac = getBadgeColor(away);
+      const isLiveMatch = m.status === 'IN_PLAY' || m.status === 'PAUSED';
+      const isFinished = m.status === 'FINISHED';
+      const scoreDisplay = (isLiveMatch || isFinished)
+        ? `<div class="score">${m.score.fullTime.home ?? 0} – ${m.score.fullTime.away ?? 0}</div>`
+        : `<div class="vs">vs</div>`;
+      const timeLabel = isLiveMatch ? 'LIVE' : formatDate(m.utcDate);
+      const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
+      const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
+      const derby = isDerby(home, away);
 
-    return `
-      <div class="fixture-card">
-        <div class="card-top">
-          <span class="competition">${m.competition?.name || 'Match'}</span>
-          <span class="match-time ${isLiveMatch ? 'live' : ''}">${timeLabel}</span>
-        </div>
-        <div class="teams">
-          <div class="team">
-            <div class="team-badge" style="background:${hc}22;color:${hc}">${getInitials(home)}</div>
-            <div class="team-name">${shortHome}</div>
+      return `
+        <div class="fixture-card">
+          <div class="card-top">
+            <span class="competition">${m.competition?.name || 'Match'}</span>
+            <span class="match-time ${isLiveMatch ? 'live' : ''}">${timeLabel}</span>
           </div>
-          <div class="score-box">${scoreDisplay}</div>
-          <div class="team">
-            <div class="team-badge" style="background:${ac}22;color:${ac}">${getInitials(away)}</div>
-            <div class="team-name">${shortAway}</div>
+          <div class="teams">
+            <div class="team">
+              <div class="team-badge" style="background:${hc}22;color:${hc}">${getInitials(home)}</div>
+              <div class="team-name">${shortHome}</div>
+            </div>
+            <div class="score-box">${scoreDisplay}</div>
+            <div class="team">
+              <div class="team-badge" style="background:${ac}22;color:${ac}">${getInitials(away)}</div>
+              <div class="team-name">${shortAway}</div>
+            </div>
           </div>
-        </div>
-        <div class="card-bottom">
-          ${isLiveMatch ? '<span class="tag live-tag">Live now</span>' : ''}
-          ${isFinished ? '<span class="tag">Full time</span>' : ''}
-          ${derby ? '<span class="tag derby">Derby</span>' : ''}
-          <a class="ticket-btn" href="https://www.stubhub.co.uk/search?q=${encodeURIComponent(shortHome)}" target="_blank">Tickets →</a>
-        </div>
-      </div>`;
-  }).join('');
+          <div class="card-bottom">
+            ${isLiveMatch ? '<span class="tag live-tag">Live now</span>' : ''}
+            ${isFinished ? '<span class="tag">Full time</span>' : ''}
+            ${derby ? '<span class="tag derby">Derby</span>' : ''}
+            <a class="ticket-btn" href="https://www.stubhub.co.uk/search?q=${encodeURIComponent(shortHome)}" target="_blank">Tickets →</a>
+          </div>
+        </div>`;
+    }).join('');
+}
+
+function getRowClass(pos, total) {
+  if (pos <= 4) return 'champions';
+  if (pos === 5 || pos === 6) return 'europa';
+  if (pos >= total - 2) return 'relegation';
+  return '';
+}
+
+function renderStandings(table) {
+  const content = document.getElementById('main-content');
+  const statusArea = document.getElementById('status-area');
+  statusArea.innerHTML = '<div class="status-bar">Live standings loaded</div>';
+
+  if (!table || table.length === 0) {
+    content.innerHTML = '<div class="loading">No standings available.</div>';
+    return;
+  }
+
+  const total = table.length;
+
+  content.innerHTML = `
+    <div class="section-label">League table</div>
+    <div class="standings-table">
+      <div class="standings-header">
+        <span>#</span>
+        <span>Team</span>
+        <span>P</span>
+        <span>W</span>
+        <span>D</span>
+        <span>L</span>
+        <span>Pts</span>
+      </div>
+      ${table.map(row => {
+        const name = row.team.name;
+        const short = name.replace(/ FC| CF| SC| AFC/g,'');
+        const color = getBadgeColor(name);
+        const rowClass = getRowClass(row.position, total);
+        return `
+          <div class="standings-row ${rowClass}">
+            <div class="pos">${row.position}</div>
+            <div class="standings-team">
+              <div class="standings-badge" style="background:${color}22;color:${color}">${getInitials(name)}</div>
+              <div class="standings-name">${short}</div>
+            </div>
+            <div class="standings-stat">${row.playedGames}</div>
+            <div class="standings-stat">${row.won}</div>
+            <div class="standings-stat">${row.draw}</div>
+            <div class="standings-stat">${row.lost}</div>
+            <div class="standings-pts">${row.points}</div>
+          </div>`;
+      }).join('')}
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div> Champions League</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div> Europa League</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div> Relegation</div>
+    </div>`;
 }
 
 async function fetchFixtures(filter) {
-  document.getElementById('fixtures-container').innerHTML = '<div class="loading">Loading...</div>';
+  document.getElementById('main-content').innerHTML = '<div class="loading">Loading...</div>';
   document.getElementById('status-area').innerHTML = '';
 
   try {
@@ -120,13 +181,45 @@ async function fetchFixtures(filter) {
   }
 }
 
+async function fetchStandings(filter) {
+  document.getElementById('main-content').innerHTML = '<div class="loading">Loading...</div>';
+  document.getElementById('status-area').innerHTML = '';
+
+  try {
+    const res = await fetch(`/api/standings?filter=${filter || 'PL'}`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    renderStandings(data.table || []);
+  } catch(e) {
+    document.getElementById('main-content').innerHTML = '<div class="loading">Could not load standings.</div>';
+  }
+}
+
 document.querySelectorAll('.chip').forEach(c => {
   c.addEventListener('click', () => {
     document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
     c.classList.add('active');
+    currentFilter = c.dataset.filter;
     document.getElementById('search-input').value = '';
-    fetchFixtures(c.dataset.filter);
+    if (currentView === 'fixtures') fetchFixtures(currentFilter);
+    else fetchStandings(currentFilter);
   });
+});
+
+document.getElementById('btn-fixtures').addEventListener('click', () => {
+  currentView = 'fixtures';
+  document.getElementById('btn-fixtures').classList.add('active');
+  document.getElementById('btn-table').classList.remove('active');
+  document.getElementById('search-input').style.display = '';
+  fetchFixtures(currentFilter);
+});
+
+document.getElementById('btn-table').addEventListener('click', () => {
+  currentView = 'table';
+  document.getElementById('btn-table').classList.add('active');
+  document.getElementById('btn-fixtures').classList.remove('active');
+  document.getElementById('search-input').style.display = 'none';
+  fetchStandings(currentFilter);
 });
 
 document.getElementById('search-input').addEventListener('input', function() {

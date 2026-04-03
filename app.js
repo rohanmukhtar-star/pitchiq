@@ -65,7 +65,7 @@ function renderFixtures(matches, isLive) {
   }
 
   content.innerHTML = '<div class="section-label">Upcoming fixtures</div>' +
-    matches.slice(0,10).map(m => {
+    matches.slice(0,20).map(m => {
       const home = m.homeTeam.name;
       const away = m.awayTeam.name;
       const hc = getBadgeColor(home);
@@ -79,6 +79,7 @@ function renderFixtures(matches, isLive) {
       const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
       const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
       const derby = isDerby(home, away);
+      const ticketSearch = encodeURIComponent(shortHome + ' vs ' + shortAway + ' tickets');
 
       return `
         <div class="fixture-card">
@@ -101,7 +102,7 @@ function renderFixtures(matches, isLive) {
             ${isLiveMatch ? '<span class="tag live-tag">Live now</span>' : ''}
             ${isFinished ? '<span class="tag">Full time</span>' : ''}
             ${derby ? '<span class="tag derby">Derby</span>' : ''}
-            <a class="ticket-btn" href="https://www.stubhub.co.uk/search?q=${encodeURIComponent(shortHome)}" target="_blank">Tickets →</a>
+            <a class="ticket-btn" href="https://www.google.com/search?q=${ticketSearch}" target="_blank">Tickets →</a>
           </div>
         </div>`;
     }).join('');
@@ -125,7 +126,6 @@ function renderStandings(table) {
   }
 
   const total = table.length;
-
   content.innerHTML = `
     <div class="section-label">League table</div>
     <div class="standings-table">

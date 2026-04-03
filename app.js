@@ -28,8 +28,9 @@ function getBadgeColor(name) {
 }
 
 function getTicketUrl(shortHome) {
-  return 'https://www.stubhub.co.uk/search?q=' + encodeURIComponent(shortHome + ' football');
+  return 'https://www.seatpick.com/search?q=' + encodeURIComponent(shortHome);
 }
+
 function formatDate(dateStr) {
   const d = new Date(dateStr);
   const now = new Date();

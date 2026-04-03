@@ -15,6 +15,13 @@ const TEAM_COLORS = {
   'Club Atlético de Madrid':'#CB3524'
 };
 
+const LEAGUE_SLUGS = {
+  'Premier League': 'english-premier-league',
+  'Bundesliga': 'german-bundesliga',
+  'Serie A': 'italian-serie-a',
+  'Primera Division': 'spanish-la-liga'
+};
+
 let allLoadedMatches = [];
 let currentFilter = 'PL';
 let currentView = 'fixtures';
@@ -27,8 +34,18 @@ function getBadgeColor(name) {
   return TEAM_COLORS[name] || '#1D9E75';
 }
 
-function getTicketUrl(shortHome) {
-  return 'https://www.seatpick.com/search?q=' + encodeURIComponent(shortHome);
+function toSlug(name) {
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/--+/g, '-');
+}
+
+function getTicketUrl(shortHome, shortAway, competitionName) {
+  const leagueSlug = LEAGUE_SLUGS[competitionName] || 'english-premier-league';
+  const matchSlug = toSlug(shortHome) + '-vs-' + toSlug(shortAway);
+  return 'https://www.footballticketnet.com/' + leagueSlug + '/' + matchSlug;
 }
 
 function formatDate(dateStr) {
@@ -83,12 +100,13 @@ function renderFixtures(matches, isLive) {
       const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
       const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
       const derby = isDerby(home, away);
-      const ticketUrl = getTicketUrl(shortHome);
+      const competitionName = m.competition?.name || 'Premier League';
+      const ticketUrl = getTicketUrl(shortHome, shortAway, competitionName);
 
       return `
         <div class="fixture-card">
           <div class="card-top">
-            <span class="competition">${m.competition?.name || 'Match'}</span>
+            <span class="competition">${competitionName}</span>
             <span class="match-time ${isLiveMatch ? 'live' : ''}">${timeLabel}</span>
           </div>
           <div class="teams">

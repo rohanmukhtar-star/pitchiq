@@ -134,9 +134,33 @@ document.querySelectorAll('.chip').forEach(c => {
   });
 });
 
+let searchTimeout;
 document.getElementById('search-input').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  document.querySelectorAll('.fixture-card').forEach(card => {
-    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
-  });
+  const q = this.value.toLowerCase().trim();
+
+  clearTimeout(searchTimeout);
+
+  if (q === '') {
+    document.querySelectorAll('.fixture-card').forEach(card => {
+      card.style.display = '';
+    });
+    return;
+  }
+
+  searchTimeout = setTimeout(() => {
+    document.querySelectorAll('.fixture-card').forEach(card => {
+      card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+
+    const visibleCards = document.querySelectorAll('.fixture-card:not([style*="none"])');
+    if (visibleCards.length === 0) {
+      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+      fetchFixtures('all').then(() => {
+        document.querySelectorAll('.fixture-card').forEach(card => {
+          card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    }
+  }, 400);
 });

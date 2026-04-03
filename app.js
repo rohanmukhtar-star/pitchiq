@@ -72,6 +72,34 @@ function isDerby(home, away) {
   );
 }
 
+function addToCalendar(shortHome, shortAway, dateStr, competitionName) {
+  const d = new Date(dateStr);
+  const end = new Date(d.getTime() + 105 * 60000);
+  const fmt = t => t.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+  const title = encodeURIComponent(shortHome + ' vs ' + shortAway);
+  const details = encodeURIComponent(competitionName + ' - PitchIQ');
+  const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(d)}/${fmt(end)}&details=${details}`;
+  window.open(url, '_blank');
+}
+
+function shareMatch(shortHome, shortAway, dateStr, competitionName) {
+  const d = new Date(dateStr);
+  const dateLabel = d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'});
+  const text = `${shortHome} vs ${shortAway} — ${competitionName} — ${dateLabel}\n\nCheck it on PitchIQ 👇\nhttps://pitchiq-mu.vercel.app`;
+  if (navigator.share) {
+    navigator.share({ title: 'PitchIQ', text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Match details copied to clipboard!');
+    });
+  }
+}
+
+function updateStats(count) {
+  const el = document.getElementById('stat-fixtures');
+  if (el) el.textContent = count;
+}
+
 function renderFixtures(matches, isLive) {
   const content = document.getElementById('main-content');
   const statusArea = document.getElementById('status-area');
@@ -82,11 +110,15 @@ function renderFixtures(matches, isLive) {
 
   if (!matches || matches.length === 0) {
     content.innerHTML = '<div class="loading">No fixtures found.</div>';
+    updateStats(0);
     return;
   }
 
+  const displayed = matches.slice(0,50);
+  updateStats(displayed.length);
+
   content.innerHTML = '<div class="section-label">Upcoming fixtures</div>' +
-    matches.slice(0,50).map(m => {
+    displayed.map((m, i) => {
       const home = m.homeTeam.name;
       const away = m.awayTeam.name;
       const hc = getBadgeColor(home);
@@ -124,6 +156,8 @@ function renderFixtures(matches, isLive) {
             ${isLiveMatch ? '<span class="tag live-tag">Live now</span>' : ''}
             ${isFinished ? '<span class="tag">Full time</span>' : ''}
             ${derby ? '<span class="tag derby">Derby</span>' : ''}
+            <button class="icon-btn" onclick="addToCalendar('${shortHome}','${shortAway}','${m.utcDate}','${competitionName}')" title="Add to calendar">📅</button>
+            <button class="icon-btn" onclick="shareMatch('${shortHome}','${shortAway}','${m.utcDate}','${competitionName}')" title="Share">↗</button>
             <a class="ticket-btn" href="${ticketUrl}" target="_blank">Tickets →</a>
           </div>
         </div>`;
@@ -190,6 +224,7 @@ function renderStandings(table) {
 async function fetchFixtures(filter) {
   document.getElementById('main-content').innerHTML = '<div class="loading">Loading...</div>';
   document.getElementById('status-area').innerHTML = '';
+  updateStats('--');
 
   try {
     const res = await fetch(`/api/fixtures?filter=${filter || 'PL'}`);

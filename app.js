@@ -49,14 +49,6 @@ function isDerby(home, away) {
   );
 }
 
-function renderForm(formStr) {
-  if (!formStr) return '<span style="font-size:11px;color:#bbb">No data</span>';
-  return formStr.split(',').slice(-5).map(r => {
-    const result = r.trim();
-    return `<div class="form-dot ${result}">${result}</div>`;
-  }).join('');
-}
-
 function renderFixtures(matches, isLive) {
   const container = document.getElementById('fixtures-container');
   const statusArea = document.getElementById('status-area');
@@ -84,8 +76,6 @@ function renderFixtures(matches, isLive) {
     const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
     const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
     const derby = isDerby(home, away);
-    const homeForm = m.homeTeam.form || '';
-    const awayForm = m.awayTeam.form || '';
 
     return `
       <div class="fixture-card">
@@ -109,16 +99,6 @@ function renderFixtures(matches, isLive) {
           ${isFinished ? '<span class="tag">Full time</span>' : ''}
           ${derby ? '<span class="tag derby">Derby</span>' : ''}
           <a class="ticket-btn" href="https://www.stubhub.co.uk/search?q=${encodeURIComponent(shortHome)}" target="_blank">Tickets →</a>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <div class="form-label">${shortHome}</div>
-            <div class="form-dots">${renderForm(homeForm)}</div>
-          </div>
-          <div class="form-group">
-            <div class="form-label">${shortAway}</div>
-            <div class="form-dots">${renderForm(awayForm)}</div>
-          </div>
         </div>
       </div>`;
   }).join('');

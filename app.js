@@ -49,6 +49,21 @@ function isDerby(home, away) {
   );
 }
 
+function getFormDots(matches, teamId) {
+  if (!matches || matches.length === 0) return '';
+  return matches.slice(-5).map(m => {
+    const isHome = m.homeTeam.id === teamId;
+    const homeScore = m.score.fullTime.home;
+    const awayScore = m.score.fullTime.away;
+    let result = 'D';
+    if (homeScore !== null && awayScore !== null) {
+      if (isHome) result = homeScore > awayScore ? 'W' : homeScore < awayScore ? 'L' : 'D';
+      else result = awayScore > homeScore ? 'W' : awayScore < homeScore ? 'L' : 'D';
+    }
+    return `<div class="form-dot ${result}">${result}</div>`;
+  }).join('');
+}
+
 function renderFixtures(matches, isLive) {
   const container = document.getElementById('fixtures-container');
   const statusArea = document.getElementById('status-area');
@@ -76,9 +91,11 @@ function renderFixtures(matches, isLive) {
     const shortHome = home.replace(/ FC| CF| SC| AFC/g,'');
     const shortAway = away.replace(/ FC| CF| SC| AFC/g,'');
     const derby = isDerby(home, away);
+    const homeId = m.homeTeam.id;
+    const awayId = m.awayTeam.id;
 
     return `
-      <div class="fixture-card">
+      <div class="fixture-card" id="card-${homeId}-${awayId}">
         <div class="card-top">
           <span class="competition">${m.competition?.name || 'Match'}</span>
           <span class="match-time ${isLiveMatch ? 'live' : ''}">${timeLabel}</span>
@@ -100,8 +117,68 @@ function renderFixtures(matches, isLive) {
           ${derby ? '<span class="tag derby">Derby</span>' : ''}
           <a class="ticket-btn" href="https://www.stubhub.co.uk/search?q=${encodeURIComponent(shortHome)}" target="_blank">Tickets →</a>
         </div>
+        <div class="form-row" id="form-${homeId}-${awayId}">
+          <div class="form-group">
+            <div class="form-label">${shortHome} form</div>
+            <div class="form-dots" id="home-form-${homeId}-${awayId}">
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">${shortAway} form</div>
+            <div class="form-dots" id="away-form-${homeId}-${awayId}">
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+              <div class="form-dot loading-dot"></div>
+            </div>
+          </div>
+        </div>
       </div>`;
   }).join('');
+
+  fetchFormForMatches(matches.slice(0,20));
+}
+
+async function fetchTeamForm(teamId) {
+  try {
+    const res = await fetch(`/api/team?id=${teamId}`);
+    if (!res.ok) throw new Error('failed');
+    const data = await res.json();
+    return data.matches || [];
+  } catch(e) {
+    return [];
+  }
+}
+
+async function fetchFormForMatches(matches) {
+  const delay = (ms) => new Promise(r => setTimeout(r, ms));
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    const homeId = m.homeTeam.id;
+    const awayId = m.awayTeam.id;
+    const cardId = `${homeId}-${awayId}`;
+
+    if (!document.getElementById(`home-form-${cardId}`)) continue;
+
+    const [homeMatches, awayMatches] = await Promise.all([
+      fetchTeamForm(homeId),
+      fetchTeamForm(awayId)
+    ]);
+
+    const homeFormEl = document.getElementById(`home-form-${cardId}`);
+    const awayFormEl = document.getElementById(`away-form-${cardId}`);
+
+    if (homeFormEl) homeFormEl.innerHTML = getFormDots(homeMatches, homeId) || '<div class="form-dot D">?</div>';
+    if (awayFormEl) awayFormEl.innerHTML = getFormDots(awayMatches, awayId) || '<div class="form-dot D">?</div>';
+
+    await delay(700);
+  }
 }
 
 async function fetchFixtures(filter) {
@@ -109,7 +186,7 @@ async function fetchFixtures(filter) {
   document.getElementById('status-area').innerHTML = '';
 
   try {
-    const res = await fetch(`/api/fixtures?filter=${filter || 'all'}`);
+    const res = await fetch(`/api/fixtures?filter=${filter || 'PL'}`);
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     allLoadedMatches = data.matches || [];

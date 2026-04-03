@@ -15,6 +15,8 @@ const TEAM_COLORS = {
   'Club Atlético de Madrid':'#CB3524'
 };
 
+let allLoadedMatches = [];
+
 function getInitials(name) {
   return name.replace(/ FC| CF| SC| AFC/g,'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
 }
@@ -51,11 +53,9 @@ function renderFixtures(matches, isLive) {
   const container = document.getElementById('fixtures-container');
   const statusArea = document.getElementById('status-area');
 
-  if (isLive) {
-    statusArea.innerHTML = '<div class="status-bar">Live data loaded successfully</div>';
-  } else {
-    statusArea.innerHTML = '<div class="error-bar">Could not load live data — showing sample fixtures</div>';
-  }
+  statusArea.innerHTML = isLive
+    ? '<div class="status-bar">Live data loaded successfully</div>'
+    : '<div class="error-bar">Could not load live data — showing sample fixtures</div>';
 
   if (!matches || matches.length === 0) {
     container.innerHTML = '<div class="loading">No fixtures found.</div>';
@@ -104,12 +104,6 @@ function renderFixtures(matches, isLive) {
   }).join('');
 }
 
-const SAMPLE = [
-  {homeTeam:{name:'Liverpool FC'},awayTeam:{name:'Arsenal FC'},utcDate:new Date(Date.now()+86400000*2).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
-  {homeTeam:{name:'Manchester City FC'},awayTeam:{name:'Chelsea FC'},utcDate:new Date(Date.now()+86400000*3).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
-  {homeTeam:{name:'Tottenham Hotspur FC'},awayTeam:{name:'Arsenal FC'},utcDate:new Date(Date.now()+86400000*4).toISOString(),status:'SCHEDULED',competition:{name:'Premier League'},score:{fullTime:{home:null,away:null}}},
-];
-
 async function fetchFixtures(filter) {
   document.getElementById('fixtures-container').innerHTML = '<div class="loading">Loading...</div>';
   document.getElementById('status-area').innerHTML = '';
@@ -118,11 +112,11 @@ async function fetchFixtures(filter) {
     const res = await fetch(`/api/fixtures?filter=${filter || 'all'}`);
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
-    renderFixtures(data.matches || [], true);
-    return data.matches || [];
+    allLoadedMatches = data.matches || [];
+    renderFixtures(allLoadedMatches, true);
   } catch(e) {
-    renderFixtures(SAMPLE, false);
-    return SAMPLE;
+    allLoadedMatches = [];
+    renderFixtures([], false);
   }
 }
 
@@ -135,26 +129,18 @@ document.querySelectorAll('.chip').forEach(c => {
   });
 });
 
-let searchTimeout;
 document.getElementById('search-input').addEventListener('input', function() {
   const q = this.value.toLowerCase().trim();
-  clearTimeout(searchTimeout);
-
   if (q === '') {
-    const activeFilter = document.querySelector('.chip.active')?.dataset.filter || 'all';
-    fetchFixtures(activeFilter);
+    renderFixtures(allLoadedMatches, true);
     return;
   }
-
-  searchTimeout = setTimeout(async () => {
-    const matches = await fetchFixtures('all');
-    const filtered = matches.filter(m =>
-      m.homeTeam.name.toLowerCase().includes(q) ||
-      m.awayTeam.name.toLowerCase().includes(q) ||
-      m.competition?.name?.toLowerCase().includes(q)
-    );
-    renderFixtures(filtered, true);
-  }, 400);
+  const filtered = allLoadedMatches.filter(m =>
+    m.homeTeam.name.toLowerCase().includes(q) ||
+    m.awayTeam.name.toLowerCase().includes(q) ||
+    (m.competition?.name || '').toLowerCase().includes(q)
+  );
+  renderFixtures(filtered, true);
 });
 
 fetchFixtures('all');

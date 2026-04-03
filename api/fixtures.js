@@ -24,17 +24,25 @@ export default async function handler(req, res) {
     const formMap = {};
     const table = standingsData?.standings?.[0]?.table || [];
     table.forEach(row => {
-      formMap[row.team.id] = row.form || '';
+      if (row.team && row.team.id) {
+        formMap[row.team.id] = row.form || '';
+      }
     });
 
     const matches = (fixturesData.matches || []).map(m => ({
       ...m,
-      homeTeam: { ...m.homeTeam, form: formMap[m.homeTeam.id] || '' },
-      awayTeam: { ...m.awayTeam, form: formMap[m.awayTeam.id] || '' }
+      homeTeam: {
+        ...m.homeTeam,
+        form: formMap[m.homeTeam.id] || null
+      },
+      awayTeam: {
+        ...m.awayTeam,
+        form: formMap[m.awayTeam.id] || null
+      }
     }));
 
-    res.status(200).json({ matches });
+    res.status(200).json({ matches, formMap });
   } catch(e) {
-    res.status(500).json({ error: 'Failed' });
+    res.status(500).json({ error: 'Failed', detail: e.message });
   }
 }

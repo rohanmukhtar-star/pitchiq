@@ -12,6 +12,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .filter-row::-webkit-scrollbar { display: none; }
 .chip { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; font-size: 12px; border: 1px solid #e0e0e0; background: white; color: #666; cursor: pointer; }
 .chip.active { background: #1D9E75; color: white; border-color: #1D9E75; }
+.view-toggle { display: flex; margin: 0 1rem 1rem; background: #f5f5f5; border-radius: 10px; padding: 4px; gap: 4px; }
+.toggle-btn { flex: 1; text-align: center; padding: 7px; font-size: 13px; font-weight: 500; color: #888; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.toggle-btn.active { background: white; color: #111; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 .section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.8px; padding: 0 1rem 0.5rem; }
 .fixture-card { margin: 0 1rem 0.75rem; background: white; border: 1px solid #eee; border-radius: 14px; padding: 1rem; cursor: pointer; transition: border-color 0.15s; }
 .fixture-card:hover { border-color: #1D9E75; }
@@ -34,12 +37,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .loading { text-align: center; padding: 2rem; color: #999; font-size: 14px; }
 .status-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #E1F5EE; border-radius: 10px; font-size: 12px; color: #0F6E56; }
 .error-bar { margin: 0 1rem 1rem; padding: 8px 12px; background: #fff3cd; border-radius: 10px; font-size: 12px; color: #856404; }
-.form-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
-.form-dots { display: flex; gap: 4px; }
-.form-dot { width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: white; }
-.form-dot.W { background: #1D9E75; }
-.form-dot.D { background: #888; }
-.form-dot.L { background: #E24B4A; }
-.form-dot.loading-dot { background: #eee; }
-.form-label { font-size: 10px; color: #bbb; text-align: center; margin-bottom: 3px; }
-.form-group { display: flex; flex-direction: column; align-items: center; }
+.standings-table { margin: 0 1rem; border-radius: 14px; overflow: hidden; border: 1px solid #eee; }
+.standings-header { display: grid; grid-template-columns: 28px 1fr 32px 32px 32px 32px 36px; gap: 4px; padding: 8px 12px; background: #f9f9f9; border-bottom: 1px solid #eee; }
+.standings-header span { font-size: 10px; font-weight: 600; color: #999; text-transform: uppercase; text-align: center; }
+.standings-header span:nth-child(2) { text-align: left; }
+.standings-row { display: grid; grid-template-columns: 28px 1fr 32px 32px 32px 32px 36px; gap: 4px; padding: 10px 12px; border-bottom: 1px solid #f5f5f5; align-items: center; transition: background 0.1s; }
+.standings-row:last-child { border-bottom: none; }
+.standings-row:hover { background: #f9f9f9; }
+.standings-row.champions { border-left: 3px solid #1D9E75; }
+.standings-row.europa { border-left: 3px solid #378ADD; }
+.standings-row.relegation { border-left: 3px solid #E24B4A; }
+.pos { font-size: 12px; font-weight: 600; color: #999; text-align: center; }
+.standings-team { display: flex; align-items: center; gap: 8px; }
+.standings-badge { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; flex-shrink: 0; }
+.standings-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.standings-stat { font-size: 12px; color: #666; text-align: center; }
+.standings-pts { font-size: 13px; font-weight: 700; color: #111; text-align: center; }
+.legend { display: flex; gap: 12px; padding: 10px 1rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #888; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }

@@ -7,10 +7,10 @@ export default async function handler(req, res) {
   const future = new Date(Date.now() + 86400000 * 30).toISOString().split('T')[0];
 
   let url = `https://api.football-data.org/v4/matches?dateFrom=${today}&dateTo=${future}`;
-
   if (filter === 'PL') url = `https://api.football-data.org/v4/competitions/PL/matches?dateFrom=${today}&dateTo=${future}`;
-  else if (filter === 'CL') url = `https://api.football-data.org/v4/competitions/CL/matches?dateFrom=${today}&dateTo=${future}`;
-  else if (filter === 'EL') url = `https://api.football-data.org/v4/competitions/EL/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'BL') url = `https://api.football-data.org/v4/competitions/BL1/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'SA') url = `https://api.football-data.org/v4/competitions/SA/matches?dateFrom=${today}&dateTo=${future}`;
+  else if (filter === 'PD') url = `https://api.football-data.org/v4/competitions/PD/matches?dateFrom=${today}&dateTo=${future}`;
   else if (filter === 'today') url = `https://api.football-data.org/v4/matches?dateFrom=${today}&dateTo=${today}`;
 
   try {
@@ -20,6 +20,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.status(200).json(data);
   } catch (e) {
-    res.status(500).json({ error: 'Failed to fetch fixtures' });
+    res.status(500).json({ error: 'Failed to fetch' });
   }
 }

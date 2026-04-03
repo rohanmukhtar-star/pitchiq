@@ -141,4 +141,20 @@ document.getElementById('search-input').addEventListener('input', function() {
   clearTimeout(searchTimeout);
 
   if (q === '') {
-    const activeFilter = document.querySelector('.chip.active')?.dataset.filter ||
+    const activeFilter = document.querySelector('.chip.active')?.dataset.filter || 'all';
+    fetchFixtures(activeFilter);
+    return;
+  }
+
+  searchTimeout = setTimeout(async () => {
+    const matches = await fetchFixtures('all');
+    const filtered = matches.filter(m =>
+      m.homeTeam.name.toLowerCase().includes(q) ||
+      m.awayTeam.name.toLowerCase().includes(q) ||
+      m.competition?.name?.toLowerCase().includes(q)
+    );
+    renderFixtures(filtered, true);
+  }, 400);
+});
+
+fetchFixtures('all');

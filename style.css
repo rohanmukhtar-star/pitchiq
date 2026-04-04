@@ -2,20 +2,20 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f0f2f0;
+  background: #f2f4f2;
   color: #111;
 }
 
 .app {
   max-width: 420px;
   margin: 0 auto;
-  background: #f0f2f0;
+  background: #f2f4f2;
   min-height: 100vh;
 }
 
 .header {
   padding: 1.5rem 1.25rem 1.25rem;
-  background: #111111;
+  background: linear-gradient(150deg, #0d3320 0%, #145c38 50%, #0f3d25 100%);
   position: relative;
   overflow: hidden;
 }
@@ -23,8 +23,9 @@ body {
 .header::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(ellipse at top right, #1D9E7520 0%, transparent 60%);
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, #1D9E7530 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -35,12 +36,12 @@ body {
   letter-spacing: -1.5px;
 }
 
-.logo span { color: #1D9E75; }
+.logo span { color: #4ade9a; }
 
 .tagline {
   font-size: 10px;
-  color: #555;
-  margin-top: 2px;
+  color: #4a8a65;
+  margin-top: 3px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
@@ -56,13 +57,13 @@ body {
 .stat-value {
   font-size: 22px;
   font-weight: 800;
-  color: #1D9E75;
+  color: #4ade9a;
   line-height: 1;
 }
 
 .stat-label {
   font-size: 9px;
-  color: #444;
+  color: #4a7a5a;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -72,7 +73,7 @@ body {
 .search-bar input {
   width: 100%;
   padding: 12px 16px;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #e2e8e2;
   border-radius: 14px;
   font-size: 14px;
   background: #ffffff;
@@ -82,7 +83,7 @@ body {
   box-shadow: 0 1px 4px #00000008;
 }
 
-.search-bar input::placeholder { color: #aaa; }
+.search-bar input::placeholder { color: #bbb; }
 .search-bar input:focus { border-color: #1D9E75; box-shadow: 0 0 0 3px #1D9E7515; }
 
 .filter-row {
@@ -101,18 +102,19 @@ body {
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #e2e8e2;
   background: #ffffff;
   color: #888;
   cursor: pointer;
   transition: all 0.15s;
   box-shadow: 0 1px 3px #00000008;
+  white-space: nowrap;
 }
 
 .chip.active {
-  background: #111111;
-  color: #ffffff;
-  border-color: #111111;
+  background: #0d3320;
+  color: #4ade9a;
+  border-color: #0d3320;
 }
 
 .view-toggle {
@@ -122,7 +124,7 @@ body {
   border-radius: 12px;
   padding: 4px;
   gap: 4px;
-  border: 1.5px solid #e8e8e8;
+  border: 1.5px solid #e2e8e2;
   box-shadow: 0 1px 4px #00000008;
 }
 
@@ -130,8 +132,8 @@ body {
   flex: 1;
   text-align: center;
   padding: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: #aaa;
   border-radius: 9px;
   cursor: pointer;
@@ -139,8 +141,8 @@ body {
 }
 
 .toggle-btn.active {
-  background: #111111;
-  color: #ffffff;
+  background: #0d3320;
+  color: #4ade9a;
 }
 
 .section-label {
@@ -155,7 +157,7 @@ body {
 .fixture-card {
   margin: 0 1rem 0.75rem;
   background: #ffffff;
-  border: 1.5px solid #ebebeb;
+  border: 1.5px solid #e8eee8;
   border-radius: 20px;
   padding: 1.1rem;
   cursor: pointer;
@@ -166,10 +168,10 @@ body {
 .fixture-card:hover {
   border-color: #1D9E75;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px #00000012;
+  box-shadow: 0 8px 24px #1D9E7515;
 }
 
-.fixture-card.expanded { border-color: #1D9E75; }
+.fixture-card.expanded { border-color: #1D9E75; box-shadow: 0 8px 24px #1D9E7515; }
 
 .card-top {
   display: flex;
@@ -184,7 +186,7 @@ body {
   font-size: 11px;
   font-weight: 700;
   color: #888;
-  background: #f5f5f5;
+  background: #f5f7f5;
   padding: 4px 10px;
   border-radius: 20px;
 }
@@ -235,11 +237,7 @@ body {
   line-height: 1.3;
 }
 
-.score-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.score-box { display: flex; flex-direction: column; align-items: center; }
 
 .score {
   font-size: 28px;
@@ -250,7 +248,7 @@ body {
 
 .vs {
   font-size: 11px;
-  color: #ccc;
+  color: #ddd;
   font-weight: 700;
   letter-spacing: 2px;
 }
@@ -260,7 +258,7 @@ body {
   gap: 6px;
   margin-top: 14px;
   padding-top: 12px;
-  border-top: 1.5px solid #f5f5f5;
+  border-top: 1.5px solid #f5f7f5;
   align-items: center;
 }
 
@@ -268,17 +266,17 @@ body {
   font-size: 10px;
   font-weight: 700;
   color: #aaa;
-  background: #f5f5f5;
+  background: #f5f7f5;
   padding: 4px 9px;
   border-radius: 20px;
 }
 
 .tag.live-tag { color: #1D9E75; background: #edfaf4; }
-.tag.derby { color: #b87800; background: #fff8e6; border: 1px solid #f0d070; }
+.tag.derby { color: #b87800; background: #fff8e6; border: 1px solid #f0d07044; }
 
 .icon-btn {
-  background: #f5f5f5;
-  border: 1.5px solid #ebebeb;
+  background: #f5f7f5;
+  border: 1.5px solid #e8eee8;
   color: #aaa;
   width: 30px;
   height: 30px;
@@ -292,17 +290,14 @@ body {
   flex-shrink: 0;
 }
 
-.icon-btn:hover {
-  background: #edfaf4;
-  border-color: #1D9E75;
-  color: #1D9E75;
-}
+.icon-btn:hover { background: #edfaf4; border-color: #1D9E75; color: #1D9E75; }
+.icon-btn.fav-active { background: #fff8e6; border-color: #f0a500; color: #f0a500; }
 
 .ticket-btn {
   margin-left: auto;
   font-size: 12px;
   color: #ffffff;
-  background: #111111;
+  background: #0d3320;
   padding: 7px 18px;
   border-radius: 20px;
   border: none;
@@ -310,17 +305,14 @@ body {
   font-weight: 700;
   text-decoration: none;
   transition: all 0.15s;
-  letter-spacing: 0.3px;
 }
 
-.ticket-btn:hover {
-  background: #1D9E75;
-}
+.ticket-btn:hover { background: #1D9E75; }
 
 .match-detail {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1.5px solid #f5f5f5;
+  border-top: 1.5px solid #f5f7f5;
   display: none;
 }
 
@@ -335,26 +327,10 @@ body {
 }
 
 .detail-row:last-child { border-bottom: none; }
+.detail-label { font-size: 11px; color: #bbb; font-weight: 600; }
+.detail-value { font-size: 11px; color: #555; font-weight: 600; text-align: right; }
 
-.detail-label {
-  font-size: 11px;
-  color: #bbb;
-  font-weight: 600;
-}
-
-.detail-value {
-  font-size: 11px;
-  color: #555;
-  font-weight: 600;
-  text-align: right;
-}
-
-.loading {
-  text-align: center;
-  padding: 3rem;
-  color: #ccc;
-  font-size: 14px;
-}
+.loading { text-align: center; padding: 3rem; color: #ccc; font-size: 14px; }
 
 .status-bar {
   margin: 0 1rem 1rem;
@@ -374,14 +350,14 @@ body {
   border-radius: 10px;
   font-size: 12px;
   color: #aaa;
-  border: 1px solid #ebebeb;
+  border: 1px solid #e8e8e8;
 }
 
 .standings-table {
   margin: 0 1rem;
   border-radius: 16px;
   overflow: hidden;
-  border: 1.5px solid #ebebeb;
+  border: 1.5px solid #e2e8e2;
   box-shadow: 0 2px 8px #00000008;
 }
 
@@ -390,14 +366,13 @@ body {
   grid-template-columns: 22px 1fr 26px 26px 26px 26px 30px;
   gap: 2px;
   padding: 9px 12px;
-  background: #111111;
-  border-bottom: 1px solid #1e1e1e;
+  background: #0d3320;
 }
 
 .standings-header span {
   font-size: 10px;
   font-weight: 700;
-  color: #666;
+  color: #4a7a5a;
   text-transform: uppercase;
   text-align: center;
   letter-spacing: 0.5px;
@@ -410,81 +385,98 @@ body {
   grid-template-columns: 22px 1fr 26px 26px 26px 26px 30px;
   gap: 2px;
   padding: 10px 12px;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f7f5;
   align-items: center;
   transition: background 0.1s;
   background: #ffffff;
 }
 
 .standings-row:last-child { border-bottom: none; }
-.standings-row:hover { background: #fafafa; }
+.standings-row:hover { background: #f8faf8; }
 .standings-row.champions { border-left: 3px solid #1D9E75; }
 .standings-row.europa { border-left: 3px solid #378ADD; }
 .standings-row.relegation { border-left: 3px solid #e63000; }
 
-.pos {
-  font-size: 11px;
-  font-weight: 700;
-  color: #ccc;
-  text-align: center;
-}
+.pos { font-size: 11px; font-weight: 700; color: #ccc; text-align: center; }
 
-.standings-team {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-width: 0;
-}
+.standings-team { display: flex; align-items: center; gap: 7px; min-width: 0; }
 
 .standings-badge {
-  width: 24px;
-  height: 24px;
+  width: 24px; height: 24px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 8px;
-  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 800;
   flex-shrink: 0;
 }
 
 .standings-name {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px; font-weight: 600; color: #111;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.standings-stat { font-size: 11px; color: #aaa; text-align: center; }
+.standings-pts { font-size: 13px; font-weight: 800; color: #111; text-align: center; }
+
+.legend {
+  display: flex; gap: 14px;
+  padding: 12px 1rem;
+  flex-wrap: wrap;
+  background: #ffffff;
+}
+
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #aaa; font-weight: 600; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.scorers-list { margin: 0 1rem; }
+
+.scorer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1.5px solid #e8eee8;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px #00000006;
+}
+
+.scorer-rank {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ddd;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.scorer-rank.top { color: #f0a500; }
+
+.scorer-info { flex: 1; min-width: 0; }
+
+.scorer-name {
+  font-size: 13px;
+  font-weight: 700;
   color: #111;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.standings-stat {
-  font-size: 11px;
-  color: #aaa;
-  text-align: center;
-}
+.scorer-team { font-size: 11px; color: #aaa; margin-top: 1px; }
 
-.standings-pts {
-  font-size: 13px;
-  font-weight: 800;
-  color: #111;
-  text-align: center;
-}
-
-.legend {
+.scorer-goals {
   display: flex;
-  gap: 14px;
-  padding: 12px 1rem;
-  flex-wrap: wrap;
-  background: #ffffff;
-}
-
-.legend-item {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  color: #aaa;
-  font-weight: 600;
+  flex-shrink: 0;
 }
 
-.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.goals-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0d3320;
+  line-height: 1;
+}
+
+.goals-label { font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; }

@@ -6,15 +6,16 @@ const TEAM_COLORS = {
   'Brighton & Hove Albion FC':'#0057B8','Brentford FC':'#e30613',
   'Fulham FC':'#CC0000','Wolverhampton Wanderers FC':'#FDB913',
   'Everton FC':'#003399','Crystal Palace FC':'#1B458F',
-  'Nottingham Forest FC':'#DD0000','Bournemouth AFC':'#DA291C',
-  'AFC Bournemouth':'#DA291C','Leicester City FC':'#003090',
+  'Nottingham Forest FC':'#DD0000','AFC Bournemouth':'#DA291C',
+  'Bournemouth AFC':'#DA291C','Leicester City FC':'#003090',
   'Ipswich Town FC':'#3a64a3','Southampton FC':'#D71920',
   'Real Madrid CF':'#FEBE10','FC Barcelona':'#A50044',
   'Bayern München':'#DC052D','Paris Saint-Germain FC':'#004170',
   'Juventus FC':'#333333','AC Milan':'#FB090B',
   'FC Internazionale Milano':'#010E80','Club Atlético de Madrid':'#CB3524',
   'Burnley FC':'#6C1D45','Sheffield United FC':'#EE2737',
-  'Luton Town FC':'#F78F1E'
+  'Luton Town FC':'#F78F1E','Sunderland AFC':'#EB172B',
+  'Leeds United FC':'#FFCD00'
 };
 
 const TICKET_SLUGS = {
@@ -26,37 +27,38 @@ const TICKET_SLUGS = {
   'Brentford FC':'brentford','Fulham FC':'fulham',
   'Wolverhampton Wanderers FC':'wolverhampton-wanderers','Everton FC':'everton',
   'Crystal Palace FC':'crystal-palace','Nottingham Forest FC':'nottingham-forest',
-  'AFC Bournemouth':'afc-bournemouth','Bournemouth AFC':'afc-bournemouth',
+  'AFC Bournemouth':'bournemouth','Bournemouth AFC':'bournemouth',
   'Leicester City FC':'leicester-city','Ipswich Town FC':'ipswich-town',
-  'Southampton FC':'southampton','Real Madrid CF':'real-madrid',
-  'FC Barcelona':'barcelona','Bayern München':'bayern-munich',
-  'Paris Saint-Germain FC':'paris-saint-germain','Juventus FC':'juventus',
-  'AC Milan':'ac-milan','FC Internazionale Milano':'inter-milan',
-  'Club Atlético de Madrid':'atletico-madrid','Borussia Dortmund':'borussia-dortmund',
-  'RB Leipzig':'rb-leipzig','Bayer 04 Leverkusen':'bayer-leverkusen',
-  'VfB Stuttgart':'vfb-stuttgart','Eintracht Frankfurt':'eintracht-frankfurt',
-  'SC Freiburg':'sc-freiburg','1. FSV Mainz 05':'mainz',
-  'FC Augsburg':'augsburg','1. FC Union Berlin':'union-berlin',
-  'VfL Bochum 1848':'vfl-bochum','SV Werder Bremen':'werder-bremen',
-  'TSG 1899 Hoffenheim':'hoffenheim','VfL Wolfsburg':'wolfsburg',
+  'Southampton FC':'southampton','Sunderland AFC':'sunderland',
+  'Leeds United FC':'leeds-united','Burnley FC':'burnley',
+  'Real Madrid CF':'real-madrid','FC Barcelona':'barcelona',
+  'Bayern München':'bayern-munich','Paris Saint-Germain FC':'paris-saint-germain',
+  'Juventus FC':'juventus','AC Milan':'ac-milan',
+  'FC Internazionale Milano':'inter-milan','Club Atlético de Madrid':'atletico-madrid',
+  'Borussia Dortmund':'borussia-dortmund','RB Leipzig':'rb-leipzig',
+  'Bayer 04 Leverkusen':'bayer-leverkusen','VfB Stuttgart':'vfb-stuttgart',
+  'Eintracht Frankfurt':'eintracht-frankfurt','SC Freiburg':'sc-freiburg',
+  '1. FSV Mainz 05':'mainz','FC Augsburg':'augsburg',
+  '1. FC Union Berlin':'fc-union-berlin','SV Werder Bremen':'werder-bremen',
+  'TSG 1899 Hoffenheim':'tsg-1899-hoffenheim','VfL Wolfsburg':'wolfsburg',
   'Hamburger SV':'hamburger-sv','Borussia Mönchengladbach':'borussia-monchengladbach',
-  'FC Internazionale Milano':'inter-milan','SSC Napoli':'napoli',
-  'SS Lazio':'lazio','AS Roma':'as-roma','Atalanta BC':'atalanta',
-  'Torino FC':'torino','ACF Fiorentina':'fiorentina','UC Sampdoria':'sampdoria',
+  'VfL Bochum 1848':'vfl-bochum','FC Heidenheim 1846':'fc-heidenheim',
+  'SSC Napoli':'ssc-napoli','SS Lazio':'lazio','AS Roma':'as-roma',
+  'Atalanta BC':'atalanta','Torino FC':'torino','ACF Fiorentina':'fiorentina',
   'Sevilla FC':'sevilla','Valencia CF':'valencia','Athletic Club':'athletic-bilbao',
   'Real Sociedad':'real-sociedad','Villarreal CF':'villarreal',
-  'Paris Saint-Germain FC':'paris-saint-germain','Olympique de Marseille':'marseille',
-  'Olympique Lyonnais':'lyon','AS Monaco FC':'monaco','LOSC Lille':'lille',
-  'AFC Ajax':'ajax','PSV':'psv-eindhoven','Feyenoord':'feyenoord',
+  'Olympique de Marseille':'marseille','Olympique Lyonnais':'lyon',
+  'AS Monaco FC':'monaco','LOSC Lille':'lille',
+  'AFC Ajax':'afc-ajax','PSV':'psv-eindhoven','Feyenoord':'feyenoord',
   'AZ Alkmaar':'az-alkmaar'
 };
 
 const LEAGUE_SLUGS = {
   'Premier League':'premier-league',
-  'Bundesliga':'bundesliga',
-  'Serie A':'serie-a',
-  'Primera Division':'la-liga',
-  'Ligue 1':'ligue-1',
+  'Bundesliga':'german-bundesliga',
+  'Serie A':'italian-serie-a',
+  'Primera Division':'spanish-la-liga',
+  'Ligue 1':'french-ligue-1',
   'Eredivisie':'eredivisie'
 };
 
@@ -74,7 +76,12 @@ const TEAM_STADIUMS = {
   'Real Madrid CF':'Santiago Bernabeu','FC Barcelona':'Spotify Camp Nou',
   'Bayern München':'Allianz Arena','Paris Saint-Germain FC':'Parc des Princes',
   'Juventus FC':'Allianz Stadium','AC Milan':'San Siro',
-  'FC Internazionale Milano':'San Siro','Club Atlético de Madrid':'Metropolitano'
+  'FC Internazionale Milano':'San Siro','Club Atlético de Madrid':'Metropolitano',
+  'Borussia Dortmund':'Signal Iduna Park','RB Leipzig':'Red Bull Arena',
+  'Bayer 04 Leverkusen':'BayArena','VfB Stuttgart':'MHPArena',
+  'Eintracht Frankfurt':'Deutsche Bank Park','SSC Napoli':'Diego Armando Maradona',
+  'AS Roma':'Stadio Olimpico','AFC Ajax':'Johan Cruyff Arena',
+  'Feyenoord':'De Kuip','PSV':'Philips Stadion'
 };
 
 let allLoadedMatches = [];
@@ -93,7 +100,8 @@ function getBadgeColor(name) {
 
 function getTicketUrl(home, shortHome, shortAway, competitionName) {
   const homeSlug = TICKET_SLUGS[home] || shortHome.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  const awaySlug = TICKET_SLUGS[shortAway] || shortAway.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const awayKey = Object.keys(TICKET_SLUGS).find(k => k.includes(shortAway) || shortAway.includes(k.replace(/ FC| CF| SC| AFC/g,'')));
+  const awaySlug = awayKey ? TICKET_SLUGS[awayKey] : shortAway.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
   const leagueSlug = LEAGUE_SLUGS[competitionName] || 'premier-league';
   return 'https://www.footballticketnet.com/' + leagueSlug + '/' + homeSlug + '-vs-' + awaySlug;
 }
@@ -156,9 +164,8 @@ function toggleFav(teamName) {
   if (idx > -1) favourites.splice(idx, 1);
   else favourites.push(teamName);
   localStorage.setItem('pitchiq_favs', JSON.stringify(favourites));
-  const btn = document.getElementById('fav-' + teamName.replace(/\s/g,'_'));
-  if (btn) btn.classList.toggle('fav-active', favourites.includes(teamName));
   showToast(favourites.includes(teamName) ? '⭐ Added to favourites' : 'Removed from favourites');
+  renderFixtures(allLoadedMatches, true);
 }
 
 function showToast(msg) {
@@ -211,9 +218,9 @@ function renderFixtures(matches, isLive) {
   updateStats(displayed.length);
   expandedCard = null;
 
-  let favMatches = displayed.filter(m => favourites.includes(m.homeTeam.name) || favourites.includes(m.awayTeam.name));
-  let otherMatches = displayed.filter(m => !favourites.includes(m.homeTeam.name) && !favourites.includes(m.awayTeam.name));
-  let sorted = [...favMatches, ...otherMatches];
+  const favMatches = displayed.filter(m => favourites.includes(m.homeTeam.name) || favourites.includes(m.awayTeam.name));
+  const otherMatches = displayed.filter(m => !favourites.includes(m.homeTeam.name) && !favourites.includes(m.awayTeam.name));
+  const sorted = [...favMatches, ...otherMatches];
 
   content.innerHTML = '<div class="section-label">Upcoming fixtures</div>' +
     sorted.map((m, i) => {
@@ -236,9 +243,9 @@ function renderFixtures(matches, isLive) {
       const stadium = TEAM_STADIUMS[home] || 'TBC';
       const matchday = m.matchday ? 'Matchday ' + m.matchday : '';
       const cardId = i;
-      const homeKey = home.replace(/\s/g,'_');
+      const safeHome = home.replace(/'/g,"\\'");
 
-      return '<div class="fixture-card' + (isFav ? ' expanded' : '') + '" id="card-' + cardId + '" onclick="toggleDetail(' + cardId + ')">' +
+      return '<div class="fixture-card" id="card-' + cardId + '" onclick="toggleDetail(' + cardId + ')">' +
         '<div class="card-top">' +
           '<span class="competition">' + competitionName + (matchday ? ' · ' + matchday : '') + '</span>' +
           '<span class="match-time ' + (isLiveMatch ? 'live' : '') + '">' + timeLabel + '</span>' +
@@ -258,8 +265,8 @@ function renderFixtures(matches, isLive) {
           (isLiveMatch ? '<span class="tag live-tag">Live</span>' : '') +
           (isFinished ? '<span class="tag">FT</span>' : '') +
           (derby ? '<span class="tag derby">Derby</span>' : '') +
-          (isFav ? '<span class="tag" style="color:#f0a500;background:#fff8e6">⭐ Fav</span>' : '') +
-          '<button class="icon-btn' + (isFav ? ' fav-active' : '') + '" id="fav-' + homeKey + '" onclick="toggleFav(\'' + home.replace(/'/g,"\\'") + '\')" title="Favourite">⭐</button>' +
+          (isFav ? '<span class="tag" style="color:#f0a500;background:#fff8e6">⭐</span>' : '') +
+          '<button class="icon-btn' + (isFav ? ' fav-active' : '') + '" onclick="toggleFav(\'' + safeHome + '\')" title="Favourite">⭐</button>' +
           '<button class="icon-btn" onclick="addToCalendar(\'' + shortHome.replace(/'/g,"\\'") + '\',\'' + shortAway.replace(/'/g,"\\'") + '\',\'' + m.utcDate + '\',\'' + competitionName + '\')" title="Calendar">📅</button>' +
           '<button class="icon-btn" onclick="shareMatch(\'' + shortHome.replace(/'/g,"\\'") + '\',\'' + shortAway.replace(/'/g,"\\'") + '\',\'' + m.utcDate + '\',\'' + competitionName + '\')" title="Share">↗</button>' +
           '<a class="ticket-btn" href="' + ticketUrl + '" target="_blank">Tickets →</a>' +

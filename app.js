@@ -189,13 +189,18 @@ function getBadgeColor(name) {
   return TEAM_COLORS[name] || '#1D9E75';
 }
 
-function getTicketUrl(home, shortHome, shortAway, competitionName) {
-  const homeSlug = TICKET_SLUGS[home];
-  const awayFullKey = Object.keys(TICKET_SLUGS).find(k => k === home.replace(home, '') || k.replace(/ FC| CF| SC| AFC| Calcio| 1909| 1913| 1846| 1907/g,'').trim() === shortAway.replace(/ FC| CF| SC| AFC| Calcio| 1909| 1913| 1846| 1907/g,'').trim());
-  const awaySlug = awayFullKey ? TICKET_SLUGS[awayFullKey] : shortAway.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+function getSlug(fullName) {
+  if (TICKET_SLUGS[fullName]) return TICKET_SLUGS[fullName];
+  return fullName.toLowerCase()
+    .replace(/ü/g,'u').replace(/ö/g,'o').replace(/ä/g,'a')
+    .replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').replace(/--+/g,'-');
+}
+
+function getTicketUrl(home, away, competitionName) {
+  const homeSlug = getSlug(home);
+  const awaySlug = getSlug(away);
   const leagueSlug = LEAGUE_SLUGS[competitionName] || 'premier-league';
-  const hSlug = homeSlug || shortHome.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  return 'https://www.footballticketnet.com/' + leagueSlug + '/' + hSlug + '-vs-' + awaySlug;
+  return 'https://www.footballticketnet.com/' + leagueSlug + '/' + homeSlug + '-vs-' + awaySlug;
 }
 
 function formatDate(dateStr) {
@@ -332,7 +337,7 @@ function renderFixtures(matches, isLive) {
       const derby = isDerby(home, away);
       const isFav = favourites.includes(home) || favourites.includes(away);
       const competitionName = m.competition?.name || 'Premier League';
-      const ticketUrl = getTicketUrl(home, shortHome, shortAway, competitionName);
+      const ticketUrl = getTicketUrl(home, away, competitionName);
       const stadium = TEAM_STADIUMS[home] || 'TBC';
       const matchday = m.matchday ? 'Matchday ' + m.matchday : '';
       const safeHome = home.replace(/'/g,"\\'");

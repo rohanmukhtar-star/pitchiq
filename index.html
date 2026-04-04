@@ -6,7 +6,7 @@
   <title>PitchIQ</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#111111" />
+  <meta name="theme-color" content="#0d3320" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PitchIQ" />
@@ -23,7 +23,7 @@
           <div class="stat-label">Fixtures</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value" id="stat-leagues">4</div>
+          <div class="stat-value" id="stat-leagues">6</div>
           <div class="stat-label">Leagues</div>
         </div>
         <div class="stat-item">
@@ -40,15 +40,17 @@
       <div class="chip" data-filter="BL">Bundesliga</div>
       <div class="chip" data-filter="SA">Serie A</div>
       <div class="chip" data-filter="PD">La Liga</div>
+      <div class="chip" data-filter="FL">Ligue 1</div>
+      <div class="chip" data-filter="DED">Eredivisie</div>
     </div>
     <div class="view-toggle">
       <div class="toggle-btn active" id="btn-fixtures">Fixtures</div>
       <div class="toggle-btn" id="btn-table">Table</div>
+      <div class="toggle-btn" id="btn-scorers">Scorers</div>
     </div>
     <div id="status-area"></div>
     <div id="main-content">
-      <div class="section-label">Upcoming fixtures</div>
-      <div id="fixtures-container"><div class="loading">Loading fixtures...</div></div>
+      <div class="loading">Loading fixtures...</div>
     </div>
   </div>
   <script>
